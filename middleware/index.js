@@ -1,18 +1,18 @@
-const passport = require("passport"),
-    client = require('mariasql'),
+let passport = require("passport"),
+    mysql = require('mysql'),
     bcrypt = require("bcrypt-nodejs")
 
 
-const middlewareObj = {};
+let middlewareObj = {};
 
-const c = new client({
-    host: 'localhost',
-    user: 'root',
-    password: 'kunal',
-    port: 3307,
-    db: 'ddif'
-})
+let connection = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'root',
+    password : 'kunal',
+    database : 'projectSoftEng'
+  });
 
+  connection.connect();
 middlewareObj.getLogin = function (req, res) {
     res.render("login")
 }
@@ -42,5 +42,4 @@ middlewareObj.loginfb = function(req, res){
             res.redirect("/username")
         }
 }
-c.end()
 module.exports = middlewareObj

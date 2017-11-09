@@ -1,13 +1,13 @@
-const client = require('mariasql')
+// const client = require('mariasql')
 
 
-const c = new client({
-    host: 'localhost',
-    user: 'root',
-    password: 'kunal',
-    port: 3307,
-    db: 'ddif'
-})
+// const c = new client({
+//     host: 'localhost',
+//     user: 'root',
+//     password: 'kunal',
+//     port: 3307,
+//     db: 'ddif'
+// })
 
 
 // c.query('Create table items(ID INT AUTO_INCREMENT PRIMARY KEY,
@@ -45,4 +45,4 @@ const c = new client({
 // })
 
 // c.query('create table customers(fname varchar(20))')
-c.end()
+// c.end()

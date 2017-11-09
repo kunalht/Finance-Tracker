@@ -1,4 +1,4 @@
-const express = require("express"),
+let express = require("express"),
   router = express.Router(),
   middlewareObj = require("../middleware/index"),
   passport = require("passport")

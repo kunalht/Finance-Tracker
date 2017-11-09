@@ -1,30 +1,28 @@
 const express = require("express"),
     app = express(),
-    client = require('mariasql'),
+    mysql = require('mysql'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
     cookieParser = require('cookie-parser'),
     flash = require('connect-flash'),
     middlewareObj = require("./middleware/index"),
     // async = require("async"),
-    dbSchema = require('./middleware/dbSchema'),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
     FacebookStrategy = require("passport-facebook"),
     bcrypt = require("bcrypt-nodejs"),
-    session = require("express-session"),
-    configAuth = require('./config/auth')
+    session = require("express-session");
+    // configAuth = require('./config/auth')
 
 
-
-const c = new client({
-    host: 'localhost',
-    user: 'root',
-    password: 'kunal',
-    port: 3307,
-    db: 'ddif',
-
-})
+    let connection = mysql.createConnection({
+        host     : 'localhost',
+        user     : 'root',
+        password : 'kunal',
+        database : 'projectSoftEng'
+      });
+    
+      connection.connect();
 
 app.use(require("express-session")({
     secret: "Secret text 1234",
@@ -54,7 +52,7 @@ passport.use(new LocalStrategy({
 },
     function (req, email, password, done) {
         console.log("register")
-        c.query("select * from user where email= :email", { email: email }, function (err, rows) {
+        connection.query("select * from user where email= ?",[email] , function (err, rows) {
             if (err) {
                 return done(err)
             } else {
@@ -66,8 +64,8 @@ passport.use(new LocalStrategy({
                     newUser.email = email
                     newUser.password = password
                     var hash = bcrypt.hashSync(password)
-                    c.query('insert into user (email, password,loginwith) values (:email,:password,"email")',
-                        { email: newUser.email, password: hash },
+                    connection.query('insert into user(email,password) values (?,?)',
+                        [email,password],
                         function (err, rows) {
                             req.login(newUser, function (err) {
                                 if (err) {
@@ -90,7 +88,7 @@ passport.use('local-login', new LocalStrategy({
 },
     function (req, email, password, done) {
         console.log(password)
-        c.query("select * from user where email=:email", { email: email }, function (err, foundUser) {
+        connection.query("select * from user where email=?",[email] , function (err, foundUser) {
             if (err) {
                 console.log(err)
                 // return done(err)
@@ -117,58 +115,52 @@ passport.use('local-login', new LocalStrategy({
         })
     }
 ))
-passport.use(new FacebookStrategy({
-    clientID: configAuth.facebookAuth.clientID,
-    clientSecret: configAuth.facebookAuth.clientSecret,
-    callbackURL: configAuth.facebookAuth.callbackURL,
-    profileFields: ['id', 'displayName', 'name', 'email']
-}, function (accessToken, refreshToken, profile, cb) {
-    process.nextTick(function () {
-        // c.query('select * from user where id=15', function (err, user) {
-        c.query('select * from user_fb where pid=:pid', { pid: profile.id }, function (err, user) {
 
-            if (err) {
-                return cb(err)
-            } if (user.length > 0) {
-                //Add items this way
-                // user[0].test = "aa"
-                return cb(null, user[0])
-            } else {
-                console.log(user.length)
-                var newUser = {}
-                newUser.pid = profile.id
-                newUser.token = accessToken
-                newUser.name = profile.name.givenName + ' ' + profile.name.familyName
-                newUser.email = (profile.emails[0].value || '').toLowerCase()
-                c.query('insert into user(email,fname,lname,oauth_id,loginwith) values(:email,:fname,:lname,:oauth_id,:loginwith)',
-                    { email: newUser.email, fname: profile.name.givenName, lname: profile.name.familyName, oauth_id: newUser.id, loginwith: "facebook" },
-                    function (err, addedUser) {
-                        newUser.id = addedUser.info.insertId
-                        c.query('insert into user_fb(pid,id,email,name,token) values(:pid,:id,:email,:name,:token)',
-                            { pid: newUser.pid, id:addedUser.info.insertId,email: newUser.email, name: newUser.name, token: newUser.token },
-                            function (err, rows) {
-                                // req.login(newUser, function (err) {
-                                return cb(null, newUser)
-                            })
-                    })
-                // })
-            }
-        })
-    })
-}))
-const indexRoutes = require("./routes/index"),
-    productRoutes = require("./routes/products"),
-    cartRoutes = require("./routes/cart"),
-    orderRoutes = require("./routes/order")
+// connection.query('insert into user(email,password) values')
+// passport.use(new FacebookStrategy({
+//     clientID: configAuth.facebookAuth.clientID,
+//     clientSecret: configAuth.facebookAuth.clientSecret,
+//     callbackURL: configAuth.facebookAuth.callbackURL,
+//     profileFields: ['id', 'displayName', 'name', 'email']
+// }, function (accessToken, refreshToken, profile, cb) {
+//     process.nextTick(function () {
+//         // c.query('select * from user where id=15', function (err, user) {
+//         c.query('select * from user_fb where pid=:pid', { pid: profile.id }, function (err, user) {
 
-c.end()
-
+//             if (err) {
+//                 return cb(err)
+//             } if (user.length > 0) {
+//                 //Add items this way
+//                 // user[0].test = "aa"
+//                 return cb(null, user[0])
+//             } else {
+//                 console.log(user.length)
+//                 var newUser = {}
+//                 newUser.pid = profile.id
+//                 newUser.token = accessToken
+//                 newUser.name = profile.name.givenName + ' ' + profile.name.familyName
+//                 newUser.email = (profile.emails[0].value || '').toLowerCase()
+//                 c.query('insert into user(email,fname,lname,oauth_id,loginwith) values(:email,:fname,:lname,:oauth_id,:loginwith)',
+//                     { email: newUser.email, fname: profile.name.givenName, lname: profile.name.familyName, oauth_id: newUser.id, loginwith: "facebook" },
+//                     function (err, addedUser) {
+//                         newUser.id = addedUser.info.insertId
+//                         c.query('insert into user_fb(pid,id,email,name,token) values(:pid,:id,:email,:name,:token)',
+//                             { pid: newUser.pid, id:addedUser.info.insertId,email: newUser.email, name: newUser.name, token: newUser.token },
+//                             function (err, rows) {
+//                                 // req.login(newUser, function (err) {
+//                                 return cb(null, newUser)
+//                             })
+//                     })
+//                 // })
+//             }
+//         })
+//     })
+// }))
+let indexRoutes = require("./routes/index");
+let groupRoutes = require("./routes/group")
 
 app.use(indexRoutes)
-app.use(productRoutes)
-app.use(cartRoutes)
-app.use(orderRoutes)
-
+app.use(groupRoutes)
 
 
 app.listen("3000", function () {

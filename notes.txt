@@ -1,3 +1,9 @@
+create table groups(ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+createdByUser INT,
+FOREIGN KEY (createdByUser) REFERENCES user(ID)
+)ENGINE=InnoDB;
+
+
 Alter table
 alter table products add column name varchar(20) after name;
 
@@ -5,11 +11,11 @@ alter table products add column name varchar(20) after name;
 // DESC Name not allowed
 
 Create table items(ID INT AUTO_INCREMENT PRIMARY KEY,
-// name varchar(100),
-// image varchar(150),
-// price double(10,2),
-// description varchar(200),
-// longDesc varchar(600) )'
+ name varchar(100),
+ image varchar(150),
+ price double(10,2),
+ description varchar(200),
+ longDesc varchar(600) )
 
 create table user_addr(
     ID INT NOT NULL PRIMARY KEY,
@@ -57,6 +63,7 @@ select sum(quantity) from cart where user_id = 3;
 INSERT INTO copy SELECT * FROM original;
 
 ORDER table:
+
 create table orders(order_id INT AUTO_INCREMENT PRIMARY KEY,
 addr_id INT NOT NULL,
 user_id INT NOT NULL,
@@ -80,3 +87,6 @@ create table user_fb(
     name varchar(256),
     token varchar(256)
 )
+
+
+CREATE TABLE USER(ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT, email VARCHAR(255), password VARCHAR(255),loginwith varchar(50));
