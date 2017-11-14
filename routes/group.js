@@ -4,7 +4,8 @@ middlewareObj = require("../middleware/index"),
 groupMiddleware = require("../middleware/group");
 
 
-groupMiddleware;
-
+router.get("/group/new",groupMiddleware.getNewGroup)
+router.post("/newGroup",groupMiddleware.createGroup)
+router.get("/group/addMember",groupMiddleware.addNewMember)
 
 module.exports = router;

@@ -60,12 +60,12 @@ passport.use(new LocalStrategy({
                     console.log("Already exist")
                     return done(null, false)
                 } else {
-                    var newUser = {}
+                    let newUser = {}
                     newUser.email = email
                     newUser.password = password
-                    var hash = bcrypt.hashSync(password)
+                    let hash = bcrypt.hashSync(password)
                     connection.query('insert into user(email,password) values (?,?)',
-                        [email,password],
+                        [email,hash],
                         function (err, rows) {
                             req.login(newUser, function (err) {
                                 if (err) {

@@ -1,8 +1,16 @@
 create table groups(ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(255),
+description VARCHAR(255),
 createdByUser INT,
 FOREIGN KEY (createdByUser) REFERENCES user(ID)
 )ENGINE=InnoDB;
 
+create table groupMembers(ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+groupId INT,
+userId INT,
+FOREIGN KEY (userId) REFERENCES user(ID),
+FOREIGN KEY (groupId) REFERENCES groups(ID)
+)ENGINE=InnoDB;
 
 Alter table
 alter table products add column name varchar(20) after name;
