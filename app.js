@@ -87,7 +87,7 @@ passport.use('local-login', new LocalStrategy({
     passReqToCallback: true
 },
     function (req, email, password, done) {
-        console.log(password)
+        // console.log(password)
         connection.query("select * from user where email=?",[email] , function (err, foundUser) {
             if (err) {
                 console.log(err)
@@ -157,10 +157,12 @@ passport.use('local-login', new LocalStrategy({
 //     })
 // }))
 let indexRoutes = require("./routes/index");
-let groupRoutes = require("./routes/group")
+let groupRoutes = require("./routes/group");
+let pfRoutes = require("./routes/personalFinance");
 
 app.use(indexRoutes)
 app.use(groupRoutes)
+app.use(pfRoutes)
 
 
 app.listen("3000", function () {

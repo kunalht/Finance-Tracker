@@ -16,6 +16,15 @@ Alter table
 alter table products add column name varchar(20) after name;
 
 
+CREATE TABLE TRANSACTIONS(ID INT,
+name VARCHAR(255),
+description VARCHAR(255),
+category VARCHAR(255),
+credit FLOAT(8,2),
+debit FLOAT(8,2),
+balance FLOAT(8,2),
+SET balance = credit
+);
 // DESC Name not allowed
 
 Create table items(ID INT AUTO_INCREMENT PRIMARY KEY,
