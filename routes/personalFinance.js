@@ -5,5 +5,6 @@ pfMiddlewareObj = require("../middleware/personalFinance")
 
 router.get('/pf/home',pfMiddlewareObj.home)
 router.get('/pf/new',pfMiddlewareObj.newExpense)
+router.psot('/pf/new',pfMiddlewareObj.postNewExpense)
 
 module.exports = router;
