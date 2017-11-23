@@ -1,0 +1,6 @@
+aljsda
+<% var balance = 0 %>
+<% transactions.forEach(function(transaction){ %>
+    <% balance = balance + transaction.credit - transaction.debit %>
+<% }) %>
+<%= balance %>
