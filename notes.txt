@@ -28,6 +28,26 @@ FOREIGN KEY (userId) REFERENCES user(ID)
 )ENGINE=InnoDB;
 // DESC Name not allowed
 
+
+CREATE TABLE BILL(ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+NAME VARCHAR(255),
+paidByUserId INT,
+AMOUNT double,
+groupId INT,
+FOREIGN KEY (groupId) REFERENCES groups(ID),
+FOREIGN KEY (paidByUserId) REFERENCES user(ID)
+)ENGINE=InnoDB;
+
+CREATE TABLE oweToUser(ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+userId INT,
+oweToUserId INT,
+billId INT,
+amount double,
+FOREIGN KEY (userId) REFERENCES user(ID),
+FOREIGN KEY (oweToUserId) REFERENCES user(ID),
+FOREIGN KEY (billId) REFERENCES bill(ID)
+)ENGINE=InnoDB;
+
 Create table items(ID INT AUTO_INCREMENT PRIMARY KEY,
  name varchar(100),
  image varchar(150),
