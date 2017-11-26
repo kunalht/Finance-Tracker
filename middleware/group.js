@@ -116,6 +116,31 @@ groupMiddleware.postbill = (req,res) => {
             })
         }
     })
+}
 
+groupMiddleware.getBalance = (req, res) => {
+    console.log("getting balance")
+    let user = req.user.ID
+    c.query("select * from owetouser where owetouserid=3",[user],function(err,owestoUser){
+        if(err){
+            console.log(err)
+        }else{
+            let owestouserObj = [{}]
+            owestoUser.forEach(function(owesto){
+                let tempObj = {}
+                owestouserObj.forEach(function(owes){
+                    if(owes.userId = owesto.ID){
+                        owes.userId
+                    }
+                })
+                tempObj.userId = owesto
+                owestouserObj.push()
+                console.log("1a" + owesto.userId)
+                // c.query("SELECT * FROM USER WHERE ID=?",[owesto.ID],function(err,oweBy){
+                //     console.log(oweBy.email)
+                // })
+            })
+        }
+    })
 }
 module.exports = groupMiddleware

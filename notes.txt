@@ -34,6 +34,7 @@ NAME VARCHAR(255),
 paidByUserId INT,
 AMOUNT double,
 groupId INT,
+createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY (groupId) REFERENCES groups(ID),
 FOREIGN KEY (paidByUserId) REFERENCES user(ID)
 )ENGINE=InnoDB;
@@ -43,6 +44,7 @@ userId INT,
 oweToUserId INT,
 billId INT,
 amount double,
+createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY (userId) REFERENCES user(ID),
 FOREIGN KEY (oweToUserId) REFERENCES user(ID),
 FOREIGN KEY (billId) REFERENCES bill(ID)
