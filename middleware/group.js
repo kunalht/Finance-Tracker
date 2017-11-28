@@ -125,32 +125,41 @@ groupMiddleware.getBalance = (req, res) => {
         if(err){
             console.log(err)
         }else{
-            let owestouserObj = [{}]
-            owestoUsers.forEach(function(owesto){
-                console.log("1")
+            let owestouserArray = [{}]
+            owestoUsers.forEach((owesto) => {
                 console.log(owesto)
-                console.log("2")
-                console.log(owestouserObj)
-                let tempObj = {}
-                owestouserObj.forEach(function(owes){
-                    console.log("3")
-                    console.log(owes)
-                    console.log(owes.userId + "   owes.userId")
-                    console.log(owesto.userId + "  owesto.userId")
-                    if(owes.userId = owesto.userId){
-                        console.log("already exists")
-                        // owes.userId
-                    }else{
-                        tempObj.userId = owesto.userId
-                        owestouserObj.push()
+                let doesExists = false
+                owestouserArray.forEach((owestoObj) => {
+                    console.log(owestoObj)
+                    if(owestoObj.userId == owesto.userId){
+                        console.log("does exists")
+                        console.log(owestoObj)
                     }
                 })
-                console.log("1a" + owesto.userId)
-                // c.query("SELECT * FROM USER WHERE ID=?",[owesto.ID],function(err,oweBy){
-                //     console.log(oweBy.email)
+                // console.log("1")
+                // console.log(owesto)
+                // console.log("2")
+                // console.log(owestouserObj)
+                // let tempObj = {}
+                // owestouserObj.forEach(function(owes){
+                //     console.log("3")
+                //     console.log(owes)
+                //     console.log(owes.userId + "   owes.userId")
+                //     console.log(owesto.userId + "  owesto.userId")
+                //     if(owes.userId = owesto.userId){
+                //         console.log("already exists")
+                //         // owes.userId
+                //     }else{
+                //         tempObj.userId = owesto.userId
+                //         owestouserObj.push()
+                //     }
                 // })
+                // console.log("1a" + owesto.userId)
+                // // c.query("SELECT * FROM USER WHERE ID=?",[owesto.ID],function(err,oweBy){
+                // //     console.log(oweBy.email)
+                // // })
             })
-            res.send(owestouserObj)
+            res.send(owestouserArray)
         }
     })
 }
