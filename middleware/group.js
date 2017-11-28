@@ -120,26 +120,37 @@ groupMiddleware.postbill = (req,res) => {
 
 groupMiddleware.getBalance = (req, res) => {
     console.log("getting balance")
-    let user = req.user.ID
-    c.query("select * from owetouser where owetouserid=3",[user],function(err,owestoUser){
+    // let user = req.user.ID
+    c.query("select * from owetouser where owetouserid=3",[],function(err,owestoUsers){
         if(err){
             console.log(err)
         }else{
             let owestouserObj = [{}]
-            owestoUser.forEach(function(owesto){
+            owestoUsers.forEach(function(owesto){
+                console.log("1")
+                console.log(owesto)
+                console.log("2")
+                console.log(owestouserObj)
                 let tempObj = {}
                 owestouserObj.forEach(function(owes){
-                    if(owes.userId = owesto.ID){
-                        owes.userId
+                    console.log("3")
+                    console.log(owes)
+                    console.log(owes.userId + "   owes.userId")
+                    console.log(owesto.userId + "  owesto.userId")
+                    if(owes.userId = owesto.userId){
+                        console.log("already exists")
+                        // owes.userId
+                    }else{
+                        tempObj.userId = owesto.userId
+                        owestouserObj.push()
                     }
                 })
-                tempObj.userId = owesto
-                owestouserObj.push()
                 console.log("1a" + owesto.userId)
                 // c.query("SELECT * FROM USER WHERE ID=?",[owesto.ID],function(err,oweBy){
                 //     console.log(oweBy.email)
                 // })
             })
+            res.send(owestouserObj)
         }
     })
 }
