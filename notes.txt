@@ -16,6 +16,8 @@ Alter table
 alter table products add column name varchar(20) after name;
 
 
+select * from transactions where month(createdAt) = 11;
+
 CREATE TABLE TRANSACTIONS(ID INT PRIMARY KEY AUTO_INCREMENT,
 name VARCHAR(255),
 userId INT,
