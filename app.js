@@ -11,7 +11,8 @@ const express = require("express"),
     LocalStrategy = require("passport-local"),
     FacebookStrategy = require("passport-facebook"),
     bcrypt = require("bcrypt-nodejs"),
-    session = require("express-session");
+    session = require("express-session"),
+    groupMiddleware = require("./middleware/group")
     // configAuth = require('./config/auth')
 
 
@@ -37,6 +38,7 @@ app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser())
 app.use(flash())
+app.use(groupMiddleware.getGroupsHome)
 passport.serializeUser(function (user, done) {
     done(null, user);
 })
@@ -63,9 +65,10 @@ passport.use(new LocalStrategy({
                     let newUser = {}
                     newUser.email = email
                     newUser.password = password
+                    newUser.name = req.body.nickname
                     let hash = bcrypt.hashSync(password)
-                    connection.query('insert into user(email,password) values (?,?)',
-                        [email,hash],
+                    connection.query('insert into user(email,password,nickname) values (?,?,?)',
+                        [email,hash,newUser.name],
                         function (err, rows) {
                             req.login(newUser, function (err) {
                                 if (err) {

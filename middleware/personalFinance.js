@@ -2,26 +2,37 @@ let mysql = require('mysql');
 let pfMiddleware = {}
 
 let c = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : 'kunal',
-    database : 'projectSoftEng'
-  });
+    host: 'localhost',
+    user: 'root',
+    password: 'kunal',
+    database: 'projectSoftEng'
+});
 
-  c.connect();
+c.connect();
 
-  // Show balance here
+// Show balance here
 pfMiddleware.home = (req, res) => {
-    c.query('SELECT * FROM TRANSACTIONS WHERE userId=?',
-    [2],function(err,transactions){
-        if(err){
+    c.query('SELECT * FROM TRANSACTIONS WHERE userId=?', [2], function (err, transactions) {
+        if (err) {
             console.log(err)
-        }else{
-            let balance
-            transactions.forEach(function(transaction){
-                balance = balance + transaction.credit - transaction.debit
+        } else {
+            let balance = 0
+            let expense = 0
+            let income = 0
+            transactions.forEach(function (transaction) {
+                let credit = transaction.credit ? parseFloat(transaction.credit) : 0
+                let debit = transaction.debit ? parseFloat(transaction.debit) : 0
+                balance = balance + credit - debit
+                expense = expense + debit
+                income = income + credit
             })
-            res.render("personalFinance/index.ejs",{transactions:transactions,balance:balance})
+            res.render("personalFinance/home.ejs", {
+                transactions: transactions,
+                balance: balance.toFixed(2),
+                income: income.toFixed(2),
+                expense: expense.toFixed(2)
+            })
+            // res.render("personalFinance/index.ejs",{transactions:transactions,balance:balance})
         }
     })
 }
@@ -34,38 +45,37 @@ pfMiddleware.newIncome = (req, res) => {
     res.render('personalFinance/newIncome')
 }
 
-pfMiddleware.postNewExpense = (req,res) => {
+pfMiddleware.postNewExpense = (req, res) => {
     let name = req.body.name
     let desc = req.body.description
     let debit = req.body.debit
-    
-    c.query("INSERT INTO TRANSACTIONS(NAME,userId,DESCRIPTION,DEBIT) VALUES(?,?,?,?)",
-    [name,2,desc,parseFloat(debit)],function(err,newTransaction){
-        if(err){
+
+    c.query("INSERT INTO TRANSACTIONS(NAME,userId,DESCRIPTION,DEBIT) VALUES(?,?,?,?)", [name, 2, desc, parseFloat(debit)], function (err, newTransaction) {
+        if (err) {
             console.log(err)
-        }else{
+        } else {
             console.log(newTransaction)
             res.redirect("/pf/home")
-            
+
         }
     })
 }
 
 
 
-pfMiddleware.postNewIncome = (req,res) => {
+pfMiddleware.postNewIncome = (req, res) => {
     let name = req.body.name
     let desc = req.body.description
     let credit = req.body.credit
-    
-    c.query("INSERT INTO TRANSACTIONS(NAME,userId,DESCRIPTION,CREDIT) VALUES(?,?,?,?)",
-    [name,2,desc,parseFloat(credit)],function(err,newTransaction){
-        if(err){
+
+    c.query("INSERT INTO TRANSACTIONS(NAME,userId,DESCRIPTION,CREDIT) VALUES(?,?,?,?)", [name, 2, desc, parseFloat(credit)], function (err, newTransaction) {
+        if (err) {
             console.log(err)
-        }else{
+        } else {
             console.log(newTransaction)
             res.redirect("/pf/home")
-            
+
         }
-    })}
-  module.exports = pfMiddleware;
+    })
+}
+module.exports = pfMiddleware;
