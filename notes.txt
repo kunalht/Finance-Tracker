@@ -1,3 +1,4 @@
+CREATE TABLE USER(ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT, email VARCHAR(255), password VARCHAR(255),loginwith varchar(50), nickname varchar(50));
 create table groups(ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 name VARCHAR(255),
 description VARCHAR(255),
@@ -131,4 +132,3 @@ create table user_fb(
 )
 
 
-CREATE TABLE USER(ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT, email VARCHAR(255), password VARCHAR(255),loginwith varchar(50));
