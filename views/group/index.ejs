@@ -1,4 +1,145 @@
-<% groups.forEach(function(group){ %>
-    <%= group.ID %>
-     <a href="/group/<%= group.ID %>/addMember"> Add new Member to this group</a>
-<% }) %>
+<% include ../partials/header.ejs %>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header">MAIN NAVIGATION</li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i>
+                        <span>Personal Finance</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+                <li class="active treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i>
+                        <span>Groups </span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <% groups.forEach((group) => { %>
+                            <li>
+                                <a href="/group/<%= group.ID %>">
+                                    <i class="fa fa-circle-o"></i>
+                                    <%= group.name %>
+                                </a>
+                            </li>
+                            <% }) %>
+                                <li>
+                                    <a href="/group/new">
+                                        <i class="fa fa-circle-o"></i> Create new group </a>
+                                </li>
+
+                    </ul>
+                </li>
+
+
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Groups
+                <small>Control panel</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> Home</a>
+                </li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <section class="content">
+                <div class="row">
+                        <section class="col-lg-7">                                
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Condensed Full Width Table</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body no-padding">
+                            <table class="table table-condensed">
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Task</th>
+                                    <th>Progress</th>
+                                    <th style="width: 40px">Label</th>
+                                </tr>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>Update software</td>
+                                    <td>
+                                        <div class="progress progress-xs">
+                                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-red">55%</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>Clean database</td>
+                                    <td>
+                                        <div class="progress progress-xs">
+                                            <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-yellow">70%</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>Cron job running</td>
+                                    <td>
+                                        <div class="progress progress-xs progress-striped active">
+                                            <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light-blue">30%</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4.</td>
+                                    <td>Fix and squish bugs</td>
+                                    <td>
+                                        <div class="progress progress-xs progress-striped active">
+                                            <div class="progress-bar progress-bar-success" style="width: 90%"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-green">90%</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                        </section>
+                </div>
+            </section>
+        </section>
+    </div>
+
+    <#% groups.forEach(function(group){ %>
+        <#%=g roup.ID %>
+            <a href="/group/<#%= group.ID %>/addMember"> Add new Member to this group</a>
+            <#% }) %>
+
+                <% include ../partials/footer.ejs %>

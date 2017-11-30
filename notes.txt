@@ -16,6 +16,13 @@ FOREIGN KEY (groupId) REFERENCES groups(ID)
 Alter table
 alter table products add column name varchar(20) after name;
 
+categories
+Rent
+Transportation
+Maintenance
+Electronics
+Food & drinks
+Groceries
 
 CREATE TABLE TRANSACTIONS(ID INT PRIMARY KEY AUTO_INCREMENT,
 name VARCHAR(255),

@@ -168,11 +168,21 @@ groupMiddleware.getBalance = (req, res) => {
         }
     })
 }
-
+groupMiddleware.findGroup = (req,res) => {
+    console.log("FINDING GROUP")
+    let groupId = req.params.id
+    c.query("select * from groupmembers left join groups on groups.id = groupmembers.groupID where groupId=?",[groupId],(err,foundGroup)=>{
+        console.log(foundGroup)
+    })
+    res.render("group/index",{
+        groups : req.groups
+    })
+}
 groupMiddleware.getGroupsHome = (req, res, next) => {
-    if (req.user) {
+    if (req) {
         // Get all group members and store them in request
-        let user = req.user.ID
+        let user = 2     
+        // let user = req.user.ID
         c.query("SELECT * FROM GROUPMEMBERS LEFT JOIN GROUPS ON GROUPMEMBERS.GROUPID = GROUPS.ID WHERE userId = ?", [user],
             function (err, foundGroups) {
                     req.groups = foundGroups
