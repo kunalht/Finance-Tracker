@@ -23,7 +23,7 @@ middlewareObj.getRegister = function (req, res) {
 
 middlewareObj.logout = function(req, res){
     req.logout()
-    res.redirect("back")
+    res.redirect("/login")
 }
 middlewareObj.homePage = function(req, res){
     // res.render("home")
