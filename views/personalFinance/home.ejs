@@ -25,12 +25,14 @@
             </span>
           </a>
           <ul class="treeview-menu">
+<% if(groups){ %>
             <% groups.forEach((group) => { %> 
               <li>
                 <a href="/group/<%= group.ID %>">
                   <i class="fa fa-circle-o"></i> <%= group.name %>  </a>
               </li>
             <% }) %>
+<% }%>
             <li>
                 <a href="/group/new">
                   <i class="fa fa-circle-o"></i> Create new group </a>
