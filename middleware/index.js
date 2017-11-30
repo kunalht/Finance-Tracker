@@ -23,11 +23,11 @@ middlewareObj.getRegister = function (req, res) {
 
 middlewareObj.logout = function(req, res){
     req.logout()
-    res.redirect("back")
+    res.redirect("/login")
 }
 middlewareObj.homePage = function(req, res){
     // res.render("home")
-    res.redirect("pf/home")
+    res.redirect("login")
     // console.log(req.user)
 }
 
