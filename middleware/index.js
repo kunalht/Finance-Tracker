@@ -27,7 +27,7 @@ middlewareObj.logout = function(req, res){
 }
 middlewareObj.homePage = function(req, res){
     // res.render("home")
-    res.redirect("pf/home")
+    res.redirect("login")
     // console.log(req.user)
 }
 

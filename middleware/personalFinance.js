@@ -12,7 +12,8 @@ c.connect();
 
 // Show balance here
 pfMiddleware.home = (req, res) => {
-    c.query('SELECT *,DATE_FORMAT(createdAt,"%Y-%m-%d") AS date FROM TRANSACTIONS WHERE userId=? ORDER BY createdAt DESC', [2], function (err, transactions) {
+    let user = req.user.ID    
+    c.query('SELECT *,DATE_FORMAT(createdAt,"%Y-%m-%d") AS date FROM TRANSACTIONS WHERE userId=? ORDER BY createdAt DESC', [user], function (err, transactions) {
         if (err) {
             console.log(err)
         } else {
@@ -53,13 +54,14 @@ pfMiddleware.newIncome = (req, res) => {
 }
 
 pfMiddleware.postNewExpense = (req, res) => {
-    console.log(req.body)
+    let user = req.user.ID
+    
     let name = req.body.name
     let desc = req.body.description
     let debit = req.body.debit
     let category = req.body.category
 
-    c.query("INSERT INTO TRANSACTIONS(NAME,userId,DEBIT,category) VALUES(?,?,?,?)", [name, 2, parseFloat(debit),category], function (err, newTransaction) {
+    c.query("INSERT INTO TRANSACTIONS(NAME,userId,DEBIT,category) VALUES(?,?,?,?)", [name, user, parseFloat(debit),category], function (err, newTransaction) {
         if (err) {
             console.log(err)
         } else {
@@ -72,11 +74,12 @@ pfMiddleware.postNewExpense = (req, res) => {
 
 
 pfMiddleware.postNewIncome = (req, res) => {
+    let user = req.user.ID
     let name = req.body.name
     let desc = req.body.description
     let credit = req.body.credit
 
-    c.query("INSERT INTO TRANSACTIONS(NAME,userId,CREDIT) VALUES(?,?,?)", [name, 2, parseFloat(credit)], function (err, newTransaction) {
+    c.query("INSERT INTO TRANSACTIONS(NAME,userId,CREDIT) VALUES(?,?,?)", [name, user, parseFloat(credit)], function (err, newTransaction) {
         if (err) {
             console.log(err)
         } else {

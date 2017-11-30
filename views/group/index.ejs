@@ -65,76 +65,132 @@
             </ol>
             <section class="content">
                 <div class="row">
-                        <section class="col-lg-7">                                
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">Condensed Full Width Table</h3>
+                    <section class="col-lg-7">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title"> Group Transactions </h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body no-padding">
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <th> Date</th>
+                                        <th> Description </th>
+                                        <th> Paid By</th>
+                                        <th> Amount </th>
+                                    </tr>
+                                    <% bills.forEach((bill)=> { %>
+                                        <tr>
+                                            <td>
+                                                <%= bill.date %>
+                                            </td>
+                                            <td>
+                                                <%= bill.NAME %>
+                                            </td>
+                                            <td>
+                                                <%= bill.nickname %>
+                                            </td>
+                                            <td>
+                                                <%= bill.AMOUNT %>
+                                            </td>
+
+                                        </tr>
+                                        <% }) %>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
                         </div>
-                        <!-- /.box-header -->
-                        <div class="box-body no-padding">
-                            <table class="table table-condensed">
-                                <tr>
-                                    <th style="width: 10px">#</th>
-                                    <th>Task</th>
-                                    <th>Progress</th>
-                                    <th style="width: 40px">Label</th>
-                                </tr>
-                                <tr>
-                                    <td>1.</td>
-                                    <td>Update software</td>
-                                    <td>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                    </section>
+
+                    <section class="col-lg-5">
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                <i class="ion ion-clipboard"></i>
+
+                                <h3 class="box-title">Group Members </h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+                                <ul class="todo-list">
+                                    <% groupMembers.forEach((member) => { %>
+
+                                        <li>
+                                            <span class="text">
+                                                <%= member.nickname %>
+                                            </span>
+                                        </li>
+                                        <% }) %>
+                                </ul>
+                            </div>
+                            <!-- /.box-body -->
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="box-footer clearfix no-border">
+                                        <form action="/group/<%= groupId %>/newMember" method="post">
+                                            <div class="form-group">
+                                                <input type="email" class="form-control" name="email" placeholder="Email ID of user">
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <button type="submit" class="btn btn-primary">Add User</button>
+                                            </form> 
                                         </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-red">55%</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2.</td>
-                                    <td>Clean database</td>
-                                    <td>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-yellow">70%</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3.</td>
-                                    <td>Cron job running</td>
-                                    <td>
-                                        <div class="progress progress-xs progress-striped active">
-                                            <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-light-blue">30%</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4.</td>
-                                    <td>Fix and squish bugs</td>
-                                    <td>
-                                        <div class="progress progress-xs progress-striped active">
-                                            <div class="progress-bar progress-bar-success" style="width: 90%"></div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-green">90%</span>
-                                    </td>
-                                </tr>
-                            </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <!-- /.box-body -->
-                    </div>
-                        </section>
+                        <!-- /.box -->
+                    </section>
+                    <section class="col-lg-7">
+                            <div class="box box-primary">
+                                <div class="box-header with-border">
+                                  <h3 class="box-title">Add new bill</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <!-- form start -->
+                                <form role="form" action="/group/<%= groupId %>/bill" method="POST">
+                                  <div class="box-body">
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1"></label>
+                                      <input type="text" name="name" placeholder="Name"  class="form-control" id="exampleInputEmail1" placeholder="Bill place or description">
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="text" name="amount" class="form-control" id="exampleInputPassword1" placeholder="Amount">
+                                    </div>          
+                                  </div>
+                                  <!-- /.box-body -->
+                    
+                                  <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                  </div>
+                                </form>
+                              </div>
+                          </section>
+                          <section class="col-lg-5">
+                                <div class="box box-primary">
+                                    <div class="box-header">
+                                        <i class="ion ion-clipboard"></i>
+        
+                                        <h3 class="box-title"> Owing money </h3>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+                                        <ul class="todo-list">
+                                            <% owestoArr.forEach((owesTo) => { %>
+        
+                                                <li>
+                                                    <span class="text">
+                                                        You owe $ <%= owesTo.amount %> to <%= owesTo.name %>
+                                                    </span>
+                                                </li>
+                                                <% }) %>
+                                        </ul>
+                                    </div>
+                                </section>
                 </div>
-            </section>
         </section>
+
     </div>
 
     <#% groups.forEach(function(group){ %>

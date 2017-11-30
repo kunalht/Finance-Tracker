@@ -23,8 +23,7 @@ groupMiddleware.getNewGroup = (req, res) => {
 
 // Post new group
 groupMiddleware.createGroup = (req, res) => {
-    console.log(req.body)
-    console.log(req.user.ID)
+
     c.query('INSERT INTO groups(name,description,createdByUser) VALUES(?,?,?)', [req.body.name, req.body.description, req.user.ID], function (err, newGroup) {
         if (err) {
             console.log(err)
@@ -117,7 +116,7 @@ groupMiddleware.postbill = (req, res) => {
                         })
                     }
                 })
-                res.send("DONE")
+                res.redirect("back")
             })
         }
     })
@@ -125,44 +124,31 @@ groupMiddleware.postbill = (req, res) => {
 
 groupMiddleware.getBalance = (req, res) => {
     console.log("getting balance")
-    // let user = req.user.ID
-    c.query("select * from owetouser where owetouserid=3", [], function (err, owestoUsers) {
+    let user = req.user.ID
+    c.query("select * from owetouser where owetouserid=?", [user], function (err, owestoUsers) {
         if (err) {
             console.log(err)
         } else {
-            let owestouserArray = [{}]
+            let owestouserArray = []
             owestoUsers.forEach((owesto) => {
                 console.log(owesto)
                 let doesExists = false
                 owestouserArray.forEach((owestoObj) => {
                     console.log(owestoObj)
                     if (owestoObj.userId == owesto.userId) {
+                        doesExists = true
+                        owestoObj.amount += owesto.amount
                         console.log("does exists")
                         console.log(owestoObj)
                     }
                 })
-                // console.log("1")
-                // console.log(owesto)
-                // console.log("2")
-                // console.log(owestouserObj)
-                // let tempObj = {}
-                // owestouserObj.forEach(function(owes){
-                //     console.log("3")
-                //     console.log(owes)
-                //     console.log(owes.userId + "   owes.userId")
-                //     console.log(owesto.userId + "  owesto.userId")
-                //     if(owes.userId = owesto.userId){
-                //         console.log("already exists")
-                //         // owes.userId
-                //     }else{
-                //         tempObj.userId = owesto.userId
-                //         owestouserObj.push()
-                //     }
-                // })
-                // console.log("1a" + owesto.userId)
-                // // c.query("SELECT * FROM USER WHERE ID=?",[owesto.ID],function(err,oweBy){
-                // //     console.log(oweBy.email)
-                // // })
+                if(doesExists == false){
+                    let owestoObj = {}
+                    owestoObj.userId = owesto.userId
+                    owestoObj.amount = owesto.amount
+                    owestouserArray.push(owestoObj)
+                }
+                console.log(owestouserArray)
             })
             res.send(owestouserArray)
         }
@@ -171,18 +157,54 @@ groupMiddleware.getBalance = (req, res) => {
 groupMiddleware.findGroup = (req,res) => {
     console.log("FINDING GROUP")
     let groupId = req.params.id
-    c.query("select * from groupmembers left join groups on groups.id = groupmembers.groupID where groupId=?",[groupId],(err,foundGroup)=>{
-        console.log(foundGroup)
-    })
-    res.render("group/index",{
-        groups : req.groups
+    c.query("select * from groupmembers left join groups on groups.id = groupmembers.groupID join user on groupmembers.userId = user.id where groupId=?",[groupId],(err,foundGroupMembers)=>{
+        c.query('select *,DATE_FORMAT(createdAt,"%Y-%m-%d") AS date from bill left join user on bill.paidByUserId = user.id where groupid = ?  ORDER BY createdAt DESC',[groupId],(err,foundBill)=>{
+            if(err){
+                console.log(err)
+            }else{
+                c.query("select * from owetouser left join user on owetouser.userId=user.id where owetouserid=3", [], function (err, owestoUsers) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        let owestouserArray = []
+                        owestoUsers.forEach((owesto) => {
+                            let doesExists = false
+                            owestouserArray.forEach((owestoObj) => {
+                                if (owestoObj.userId == owesto.userId) {
+                                    doesExists = true
+                                    owestoObj.amount += owesto.amount
+                                    console.log("does exists")
+                                    console.log(owestoObj)
+                                }
+                            })
+                            if(doesExists == false){
+                                let owestoObj = {}
+                                owestoObj.userId = owesto.userId
+                                owestoObj.amount = owesto.amount
+                                owestoObj.name = owesto.nickname
+                                owestouserArray.push(owestoObj)
+                            }
+                            console.log(owestouserArray)
+                        })
+                        res.render("group/index",{
+                            groups : req.groups,
+                            groupMembers : foundGroupMembers,
+                            bills : foundBill,
+                            groupId: groupId,
+                            owestoArr : owestouserArray
+                        })
+                    }
+                })
+                
+            }
+        })
     })
 }
 groupMiddleware.getGroupsHome = (req, res, next) => {
-    if (req) {
+    if (req.user) {
         // Get all group members and store them in request
-        let user = 2     
-        // let user = req.user.ID
+        // let user = 2     
+        let user = req.user.ID
         c.query("SELECT * FROM GROUPMEMBERS LEFT JOIN GROUPS ON GROUPMEMBERS.GROUPID = GROUPS.ID WHERE userId = ?", [user],
             function (err, foundGroups) {
                     req.groups = foundGroups

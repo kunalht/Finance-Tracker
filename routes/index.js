@@ -14,12 +14,12 @@ router.get("/login", middlewareObj.getLogin)
 // router.post("/login", middlewareObj.login)
 router.post('/login',
   passport.authenticate('local-login', {
-    successRedirect: '/',
+    successRedirect: '/pf/home',
     failureRedirect: '/login'
   }));
 router.post('/register',
   passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/pf/home',
     failureRedirect: '/register'
   }));
 
