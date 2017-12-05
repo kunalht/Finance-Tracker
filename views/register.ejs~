@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> Finance Planner </title>
+  <title>AdminLTE 2 | Registration Page</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -27,71 +27,57 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition login-page">
-<div class="login-box">
-  <div class="login-logo">
-    <a href=""><b>Finance Planner</a>
+<body class="hold-transition register-page">
+<div class="register-box">
+  <div class="register-logo">
+    <a href=""> Finance planner
   </div>
-  <!-- /.login-logo -->
-  <div class="login-box-body">
-    <p class="login-box-msg"> Create new group</p>
 
+  <div class="register-box-body">
+    <p class="login-box-msg">Register a new membership</p>
 
-
-    <form action="/newGroup" method="POST">
+    <form action="/register" method="POST">
         <div class="form-group has-feedback">
-        <input name="name" type="text" class="form-control" placeholder="Group name" id="email">                
-        <!-- <input name="email" type="email" class="form-control" placeholder="Email"> -->
+        <input name = "nickname" type="text" placeholder="Name" class="form-control">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input name="email" class="form-control"  type="email" placeholder="Email">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input name = "description" type="text" class="form-control" placeholder="Description" id="password">
+        <input name="password" type="password class="form-control"  placeholder="Password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
         <div class="col-xs-8">
+
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat" class="submit">Create group </button>
+          <button class="btn btn-primary btn-block btn-flat">Register </button>
         </div>
         <!-- /.col -->
       </div>
     </form>
 
-     <div class="social-auth-links text-center"> 
+    <div class="social-auth-links text-center">
+      <p>- OR -</p>
+    </div>
 
-    </div> 
-    <!-- /.social-auth-links -->
-
+    <a href="/login" class="text-center">I already have a membership</a>
   </div>
-  <!-- /.login-box-body -->
+  <!-- /.form-box -->
 </div>
-<!-- /.login-box -->
+<!-- /.register-box -->
 
-<!-- jQuery 3 -->
+<!-- jQuery 3
 <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
+ Bootstrap 3.3.7 -->
 <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- iCheck -->
-<script src="../../plugins/iCheck/icheck.min.js"></script>
-<script>
-  $(function () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' // optional
-    });
-  });
-</script>
+<!-- iCheck
+<script src="../../plugins/iCheck/icheck.min.js"></script> -->
 </body>
 </html>
 
-
-
-<!-- <form action="/login" method="POST">
-    <input type="text" name="email" placeholder="uname"> <br>
-    <input type="password" name="password" placeholder="pword"> <br>
-    <input type="submit">
-</form> -->
 
