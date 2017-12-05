@@ -32,6 +32,7 @@ groupMiddleware.createGroup = (req, res) => {
                 if (err) {
                     console.log(err)
                 } else {
+res.redirect("/pf/home")
                     console.log(newMembers)
                 }
             })
