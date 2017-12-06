@@ -51,8 +51,8 @@ groupMiddleware.postMember = (req, res) => {
     console.log(req.params.id)
     let groupId = req.params.id
     let email = req.body.email
-    c.query("SELECT ID FROM USER WHERE EMAIL=?", [email], function (err, newUserId) {
-        c.query("INSERT INTO GROUPMEMBERS(groupId,userId) VALUES(?,?)", [groupId, newUserId[0].ID], function (err, newMember) {
+    c.query("SELECT ID FROM user WHERE email=?", [email], function (err, newUserId) {
+        c.query("INSERT INTO groupMembers(groupId,userId) VALUES(?,?)", [groupId, newUserId[0].ID], function (err, newMember) {
             if (err) {
                 console.log(err)
             } else {
@@ -101,7 +101,7 @@ groupMiddleware.postbill = (req, res) => {
             console.log(newBill)
 
             // Find other group members 
-            c.query("SELECT userId from groupmembers where groupId=?", [groupId], function (err, members) {
+            c.query("SELECT userId from groupMembers where groupId=?", [groupId], function (err, members) {
                 let totalMembers = members.length
                 let splitAmount = parseFloat(amount / totalMembers)
                 console.log(members)
@@ -126,7 +126,7 @@ groupMiddleware.postbill = (req, res) => {
 groupMiddleware.getBalance = (req, res) => {
     console.log("getting balance")
     let user = req.user.ID
-    c.query("select * from owetouser where owetouserid=?", [user], function (err, owestoUsers) {
+    c.query("select * from oweToUser where oweToUserId=?", [user], function (err, owestoUsers) {
         if (err) {
             console.log(err)
         } else {
@@ -158,13 +158,18 @@ groupMiddleware.getBalance = (req, res) => {
 groupMiddleware.findGroup = (req,res) => {
     console.log("FINDING GROUP")
     let groupId = req.params.id
+<<<<<<< HEAD
     c.query("select * from groupMembers left join groups on groups.id = groupmembers.groupID join user on groupmembers.userId = user.id where groupId=?",[groupId],(err,foundGroupMembers)=>{
         console.log(foundGroupMembers)
         c.query('select *,DATE_FORMAT(createdAt,"%Y-%m-%d") AS date from bill left join user on bill.paidByUserId = user.id where groupid = ?  ORDER BY createdAt DESC',[groupId],(err,foundBill)=>{
+=======
+    c.query("select * from groupMembers left join groups on groups.id = groupmembers.groupID join user on groupMembers.userId = user.ID where groupId=?",[groupId],(err,foundGroupMembers)=>{
+        c.query('select *,DATE_FORMAT(createdAt,"%Y-%m-%d") AS date from BILL left join user on BILL.paidByUserId = user.id where groupid = ?  ORDER BY createdAt DESC',[groupId],(err,foundBill)=>{
+>>>>>>> 9f52205fdb0310e96e0ad5d8e441cfea7d5472ec
             if(err){
                 console.log(err)
             }else{
-                c.query("select * from owetouser left join user on owetouser.userId=user.id where owetouserid=3", [], function (err, owestoUsers) {
+                c.query("select * from oweToUser left join user on oweToUser.userId=user.ID where oweToUserId=3", [], function (err, owestoUsers) {
                     if (err) {
                         console.log(err)
                     } else {
@@ -207,8 +212,12 @@ groupMiddleware.getGroupsHome = (req, res, next) => {
         // Get all group members and store them in request
         // let user = 2     
         let user = req.user.ID
-        c.query("SELECT * FROM GROUPMEMBERS LEFT JOIN GROUPS ON GROUPMEMBERS.GROUPID = GROUPS.ID WHERE userId = ?", [user],
+        c.query("SELECT * FROM groupMembers LEFT JOIN groups ON groupMembers.groupId = groups.ID WHERE userId = ?", [user],
             function (err, foundGroups) {
+if(err){
+console.log(err)
+}
+console.log(foundGroups)
                     req.groups = foundGroups
                     next()
             })
