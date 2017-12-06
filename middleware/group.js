@@ -56,8 +56,7 @@ groupMiddleware.postMember = (req, res) => {
             if (err) {
                 console.log(err)
             } else {
-                console.log(newMember)
-
+                res.redirect('back')
             }
         })
     })
@@ -104,16 +103,13 @@ groupMiddleware.postbill = (req, res) => {
             c.query("SELECT userId from groupMembers where groupId=?", [groupId], function (err, members) {
                 let totalMembers = members.length
                 let splitAmount = parseFloat(amount / totalMembers)
-                console.log(members)
                 members.forEach(function (member) {
-                    console.log("member" + member.userId)
                     if (member.userId != user) {
                         console.log("memberss" + member.userId)
                         c.query("INSERT INTO oweToUser(userId,oweToUserId,billId,amount) values(?,?,?,?)", [user, member.userId, newBill.insertId, splitAmount], function (err, newOwedAmount) {
                             if (err) {
                                 console.log(err)
                             }
-                            console.log(newOwedAmount)
                         })
                     }
                 })
