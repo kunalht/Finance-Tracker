@@ -161,7 +161,7 @@ groupMiddleware.findGroup = (req,res) => {
     let userId = req.user.ID
     c.query("select * from groupMembers left join groups on groups.ID = groupMembers.groupId join user on groupMembers.userId = user.ID where groupId=?",[groupId],(err,foundGroupMembers)=>{
         console.log(foundGroupMembers)
-        c.query('select *,DATE_FORMAT(createdAt,"%Y-%m-%d") AS date from BILL left join user on BILL.paidBy UserId = user.ID where groupId = ?  ORDER BY createdAt DESC',[groupId],(err,foundBill)=>{
+        c.query('select *,DATE_FORMAT(createdAt,"%Y-%m-%d") AS date from BILL left join user on BILL.paidByUserId = user.ID where groupId = ?  ORDER BY createdAt DESC',[groupId],(err,foundBill)=>{
             if(err){
                 console.log(err)
             }else{
