@@ -158,18 +158,14 @@ groupMiddleware.getBalance = (req, res) => {
 groupMiddleware.findGroup = (req,res) => {
     console.log("FINDING GROUP")
     let groupId = req.params.id
-<<<<<<< HEAD
-    c.query("select * from groupMembers left join groups on groups.id = groupmembers.groupID join user on groupmembers.userId = user.id where groupId=?",[groupId],(err,foundGroupMembers)=>{
+    let userId = req.user.ID
+    c.query("select * from groupMembers left join groups on groups.ID = groupMembers.groupId join user on groupMembers.userId = user.ID where groupId=?",[groupId],(err,foundGroupMembers)=>{
         console.log(foundGroupMembers)
-        c.query('select *,DATE_FORMAT(createdAt,"%Y-%m-%d") AS date from bill left join user on bill.paidByUserId = user.id where groupid = ?  ORDER BY createdAt DESC',[groupId],(err,foundBill)=>{
-=======
-    c.query("select * from groupMembers left join groups on groups.id = groupmembers.groupID join user on groupMembers.userId = user.ID where groupId=?",[groupId],(err,foundGroupMembers)=>{
-        c.query('select *,DATE_FORMAT(createdAt,"%Y-%m-%d") AS date from BILL left join user on BILL.paidByUserId = user.id where groupid = ?  ORDER BY createdAt DESC',[groupId],(err,foundBill)=>{
->>>>>>> 9f52205fdb0310e96e0ad5d8e441cfea7d5472ec
+        c.query('select *,DATE_FORMAT(createdAt,"%Y-%m-%d") AS date from BILL left join user on BILL.paidBy UserId = user.ID where groupId = ?  ORDER BY createdAt DESC',[groupId],(err,foundBill)=>{
             if(err){
                 console.log(err)
             }else{
-                c.query("select * from oweToUser left join user on oweToUser.userId=user.ID where oweToUserId=3", [], function (err, owestoUsers) {
+                c.query("select * from oweToUser left join user on oweToUser.userId=user.ID where oweToUserId=?", [userId], function (err, owestoUsers) {
                     if (err) {
                         console.log(err)
                     } else {
