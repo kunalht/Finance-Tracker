@@ -132,15 +132,11 @@ groupMiddleware.getBalance = (req, res) => {
         } else {
             let owestouserArray = []
             owestoUsers.forEach((owesto) => {
-                console.log(owesto)
                 let doesExists = false
                 owestouserArray.forEach((owestoObj) => {
-                    console.log(owestoObj)
                     if (owestoObj.userId == owesto.userId) {
                         doesExists = true
                         owestoObj.amount += owesto.amount
-                        console.log("does exists")
-                        console.log(owestoObj)
                     }
                 })
                 if(doesExists == false){
@@ -149,18 +145,15 @@ groupMiddleware.getBalance = (req, res) => {
                     owestoObj.amount = owesto.amount
                     owestouserArray.push(owestoObj)
                 }
-                console.log(owestouserArray)
             })
             res.send(owestouserArray)
         }
     })
 }
 groupMiddleware.findGroup = (req,res) => {
-    console.log("FINDING GROUP")
     let groupId = req.params.id
     let userId = req.user.ID
     c.query("select * from groupMembers left join groups on groups.ID = groupMembers.groupId join user on groupMembers.userId = user.ID where groupId=?",[groupId],(err,foundGroupMembers)=>{
-        console.log(foundGroupMembers)
         c.query('select *,DATE_FORMAT(createdAt,"%Y-%m-%d") AS date from BILL left join user on BILL.paidByUserId = user.ID where groupId = ?  ORDER BY createdAt DESC',[groupId],(err,foundBill)=>{
             if(err){
                 console.log(err)
@@ -176,8 +169,6 @@ groupMiddleware.findGroup = (req,res) => {
                                 if (owestoObj.userId == owesto.userId) {
                                     doesExists = true
                                     owestoObj.amount += owesto.amount
-                                    console.log("does exists")
-                                    console.log(owestoObj)
                                 }
                             })
                             if(doesExists == false){
@@ -187,7 +178,6 @@ groupMiddleware.findGroup = (req,res) => {
                                 owestoObj.name = owesto.nickname
                                 owestouserArray.push(owestoObj)
                             }
-                            console.log(owestouserArray)
                         })
                         res.render("group/index",{
                             groups : req.groups,
@@ -213,7 +203,6 @@ groupMiddleware.getGroupsHome = (req, res, next) => {
 if(err){
 console.log(err)
 }
-console.log(foundGroups)
                     req.groups = foundGroups
                     next()
             })

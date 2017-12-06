@@ -30,7 +30,6 @@ pfMiddleware.home = (req, res) => {
                 expense = expense + debit
                 income = income + credit
             })
-            console.log(req.groups)
             res.render("personalFinance/home.ejs", {
                 transactions: transactions,
                 date: transactions.createdAt,
@@ -65,7 +64,6 @@ pfMiddleware.postNewExpense = (req, res) => {
         if (err) {
             console.log(err)
         } else {
-            console.log(newTransaction)
             res.redirect("/pf/home")
         }
     })
@@ -83,7 +81,6 @@ pfMiddleware.postNewIncome = (req, res) => {
         if (err) {
             console.log(err)
         } else {
-            console.log(newTransaction)
             res.redirect("/pf/home")
 
         }
